@@ -1,62 +1,53 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import React from "react";
+import UnElemento from "../components/UnElemento.js";
 
-function Home() {
-  return (
-    <>
-      <Header />
+let apiKey = "62c5658855e15f6ec169432e29e4b6a4";
 
-      <div className="container">
-        <h1>UdeSA Movies</h1>
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        peliculasPopulares: [],
 
-        
-        <form className="search-form">
-          <input type="text" name="searchData" placeholder="Buscar..." />
-          <button type="submit" className="btn btn-success btn-sm">
-            Buscar
-          </button>
-        </form>
+    }
+  }
 
-        <h2 className="alert alert-primary">Popular movies this week</h2>
-        <section className="row cards">
+  componentDidMount() {
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ peliculasPopulares: data.results });
+      })
+      .catch(error=>console.log('El error fue: ' + error));
 
-          <article className="single-card-movie">
-            <img
-              src="https://image.tmdb.org/t/p/w500/tzrJulItjttxzoX0t3B2My46TS7.jpg"
-              className="card-img-top"
-              alt=""
-            />
-            <div className="cardBody">
-              <h5>The Thursday Murder Club</h5>
-              <p>A group of senior sleuths...</p>
-              <button className="btn btn-primary">Ver más</button>
-            </div>
-          </article>
+  }
 
-          
 
-        </section>
-
-        <h2 className="alert alert-primary">Movies now playing</h2>
-        <section className="row cards">
-          
-        </section>
-
-        <h2 className="alert alert-warning">Popular TV shows this week</h2>
-        <section className="row cards">
-          
-        </section>
-
-        <h2 className="alert alert-warning">TV shows airing today</h2>
-        <section className="row cards">
-          
-        </section>
-
+  render() {
+    console.log(this.state.peliculasPopulares);
+    return (
+      <div className="container"> 
+      <h2>Películas populares</h2>
+      <ul>
+        {this.state.peliculasPopulares.map((pelicula) => (
+          <UnElemento 
+            key={pelicula.id} 
+            foto={pelicula.poster_path} 
+            nombre={pelicula.title} 
+            descripcion={pelicula.overview} 
+          />
+        ))}
+      </ul>
       </div>
-
-      <Footer />
-    </>
-  );
+    )
+  }
 }
 
+
+
 export default Home;
+
+// hacer lo mismo para otra seccion mas 
+//agregar un boton q sea un link que me lleve a la seccion correspondiente
