@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import "../styles/Styles.css";
 import React from "react";
 import UnElemento from "../components/UnElemento.js";
 
@@ -9,7 +10,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        peliculasPopulares: [],
+      peliculasPopulares: [],
+      peliculasCartelera: []
 
     }
   }
@@ -20,7 +22,14 @@ class Home extends React.Component {
       .then(data => {
         this.setState({ peliculasPopulares: data.results });
       })
-      .catch(error=>console.log('El error fue: ' + error));
+      .catch(error => console.log('El error fue: ' + error));
+
+      fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ peliculasCartelera: data.results });
+      })
+      .catch(error => console.log('El error fue: ' + error));
 
   }
 
@@ -28,18 +37,31 @@ class Home extends React.Component {
   render() {
     console.log(this.state.peliculasPopulares);
     return (
-      <div className="container"> 
-      <h2>Películas populares</h2>
-      <ul>
-        {this.state.peliculasPopulares.map((pelicula) => (
-          <UnElemento 
-            key={pelicula.id} 
-            foto={pelicula.poster_path} 
-            nombre={pelicula.title} 
-            descripcion={pelicula.overview} 
-          />
-        ))}
-      </ul>
+      <div className="container">
+        <h2>Películas populares</h2>
+        <ul>
+          {this.state.peliculasPopulares.map((pelicula) => (
+            <UnElemento
+              key={pelicula.id}
+              id={pelicula.id}
+              foto={pelicula.poster_path}
+              nombre={pelicula.title}
+              descripcion={pelicula.overview}
+            />
+          ))}
+        </ul>
+        <h2>Películas en cartelera</h2>
+        <ul>
+          {this.state.peliculasCartelera.map((pelicula) => (
+            <UnElemento
+              key={pelicula.id}
+              id={pelicula.id}
+              foto={pelicula.poster_path}
+              nombre={pelicula.title}
+              descripcion={pelicula.overview}
+            />
+          ))}
+        </ul>
       </div>
     )
   }
@@ -49,5 +71,3 @@ class Home extends React.Component {
 
 export default Home;
 
-// hacer lo mismo para otra seccion mas 
-//agregar un boton q sea un link que me lleve a la seccion correspondiente

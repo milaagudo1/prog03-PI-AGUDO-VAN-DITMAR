@@ -1,0 +1,313 @@
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #0f172a, #1e293b);
+    padding: 10px 40px;
+}
+
+
+.logo-img {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+}
+
+
+.nav {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.nav a {
+    text-decoration: none;
+    color: #e5e7eb;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #6366f1;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+.nav a:hover {
+    color: #6366f1;
+}
+
+
+.card {
+    background: #1e293b;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);
+}
+
+
+.card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+
+.card h3 {
+    font-size: 16px;
+    margin: 12px;
+    color: #f1f5f9;
+}
+
+
+.card p {
+    font-size: 13px;
+    color: #cbd5f5;
+    padding: 0 10px;
+}
+
+
+.card button {
+    margin: 6px;
+    padding: 7px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+
+.btn-primary {
+    background: #6366f1;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4f46e5;
+}
+
+
+.btn-secondary {
+    background: #334155;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #475569;
+}
+
+
+.btn-warning {
+    background: #f59e0b;
+    color: black;
+}
+
+.btn-warning:hover {
+    background: #d97706;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+
+.container {
+    padding: 30px;
+}
+
+
+.container h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #f9fafb;
+    border-left: 4px solid #6366f1;
+    padding-left: 10px;
+}
+
+
+.container ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+}
+
+.footer {
+    background-color: #1e293b;
+    color: #e5e7eb;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.register-container h2 {
+  margin-bottom: 20px;
+}
+
+
+.register-form {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.register-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+
+.register-form button {
+  padding: 10px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.register-form button:hover {
+  background: #4f46e5;
+}
+
+
+.error {
+  color: #f87171;
+  font-size: 13px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.login-form {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.login-form button {
+  padding: 10px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background: #4f46e5;
+}
+
+.error {
+  color: #f87171;
+  font-size: 13px;
+}
+
+.buscador {
+  padding: 10px;
+  width: 250px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+
+@media (max-width: 1024px) {
+    .container ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .container ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .container ul {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .logo-img {
+        height: 50px;
+    }
+
+    .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+}
