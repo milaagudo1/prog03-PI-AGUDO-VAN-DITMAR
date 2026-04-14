@@ -311,3 +311,16 @@ body {
         gap: 20px;
     }
 }
+.search-form {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.search-form input {
+  width: 400px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
