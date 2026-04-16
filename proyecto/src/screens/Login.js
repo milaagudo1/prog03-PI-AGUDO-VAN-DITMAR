@@ -64,7 +64,9 @@ class Login extends Component {
             onClick={() => this.validarUsuario()}
           />
 
-          {this.state.error && <p>{this.state.error}</p>}
+          if (this.state.error) {
+            return <p>{this.state.error}</p>;
+          }
 
         </form>
       </div>
