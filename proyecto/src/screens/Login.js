@@ -1,43 +1,75 @@
-import { useState } from "react";
+import React, { Component } from "react";
 
-function Login() {
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: ""
+    };
+  }
 
-  const [error, setError] = useState("");
+  evitarSubmit(event) {
+    event.preventDefault();
+  }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  controlarCambios(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
 
-    let email = e.target.email.value;
-    let password = e.target.password.value;
+  validarUsuario() {
+    let usuarioValido = {
+      email: "test@mail.com",
+      password: "123456"
+    };
 
-    let user = JSON.parse(localStorage.getItem(email));
-
-    if (user && user.password === password) {
-      sessionStorage.setItem("usuario", email);
-      setError("");
+    if (
+      this.state.email === usuarioValido.email &&
+      this.state.password === usuarioValido.password
+    ) {
+      this.setState({ error: "" });
       alert("Login correcto");
     } else {
-      setError("Credenciales incorrectas");
+      this.setState({ error: "Credenciales incorrectas" });
     }
   }
 
-  return (
-    <div className="login-container">
-      <h2>Login</h2>
+  render() {
+    return (
+      <div>
+        <form onSubmit={(event) => this.evitarSubmit(event)}>
 
-      <form onSubmit={handleSubmit} className="login-form">
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            onChange={(event) => this.controlarCambios(event)}
+            value={this.state.email}
+          />
 
-        <input name="email" placeholder="Email" required />
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            onChange={(event) => this.controlarCambios(event)}
+            value={this.state.password}
+          />
 
-        <input name="password" type="password" placeholder="Password" required />
+          <input
+            type="submit"
+            value="Submit"
+            onClick={() => this.validarUsuario()}
+          />
 
-        <button>Ingresar</button>
+          {this.state.error && <p>{this.state.error}</p>}
 
-        {error && <p className="error">{error}</p>}
-
-      </form>
-    </div>
-  );
+        </form>
+      </div>
+    );
+  }
 }
 
 export default Login;

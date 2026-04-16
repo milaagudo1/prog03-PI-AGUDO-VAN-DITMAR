@@ -1,56 +1,85 @@
-import { useState } from "react";
+import React, { Component } from "react";
 
-function Register() {
+class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: ""
+    };
+  }
 
-  const [error, setError] = useState("");
+  evitarSubmit(event) {
+    event.preventDefault();
+  }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  controlarCambios(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
 
-    let email = e.target.email.value;
-    let password = e.target.password.value;
-
+  registrarUsuario() {
     
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
+    if (this.state.password.length < 6) {
+      this.setState({
+        error: "La contraseña debe tener al menos 6 caracteres"
+      });
       return;
     }
 
-   
-    let usuarioGuardado = localStorage.getItem(email);
+    
+    let usuarioExistente = "test@mail.com";
 
-    if (usuarioGuardado) {
-      setError("El email ya está registrado");
+    if (this.state.email === usuarioExistente) {
+      this.setState({
+        error: "El email ya está registrado"
+      });
       return;
     }
 
     
-    localStorage.setItem(email, JSON.stringify({ email, password }));
+    this.setState({
+      error: ""
+    });
 
-    
-    sessionStorage.setItem("usuario", email);
-
-    setError("");
     alert("Usuario creado correctamente");
   }
 
-  return (
-    <div className="register-container">
-      <h2>Crear Cuenta</h2>
+  render() {
+    return (
+      <div>
+        <form onSubmit={(event) => this.evitarSubmit(event)}>
 
-      <form onSubmit={handleSubmit} className="register-form">
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            onChange={(event) => this.controlarCambios(event)}
+            value={this.state.email}
+          />
 
-        <input name="email" placeholder="Email" required />
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            onChange={(event) => this.controlarCambios(event)}
+            value={this.state.password}
+          />
 
-        <input name="password" type="password" placeholder="Password" required />
+          <input
+            type="submit"
+            value="Submit"
+            onClick={() => this.registrarUsuario()}
+          />
 
-        <button>Registrarse</button>
+          {this.state.error && <p>{this.state.error}</p>}
 
-        {error && <p className="error">{error}</p>}
-
-      </form>
-    </div>
-  );
+        </form>
+      </div>
+    );
+  }
 }
 
 export default Register;
