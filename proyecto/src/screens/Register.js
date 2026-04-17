@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 class Register extends Component {
   constructor(props) {
@@ -6,79 +9,45 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      error: ""
     };
   }
 
-  evitarSubmit(event) {
-    event.preventDefault();
-  }
-
-  controlarCambios(event) {
+  controlarCambios(e) {
     this.setState({
-      [event.target.name]: event.target.value
+      [e.target.name]: e.target.value
     });
   }
 
-  registrarUsuario() {
+  registerUsuario(e) {
     
-    if (this.state.password.length < 6) {
-      this.setState({
-        error: "La contraseña debe tener al menos 6 caracteres"
-      });
-      return;
-    }
+
 
     
-    let usuarioExistente = "test@mail.com";
-
-    if (this.state.email === usuarioExistente) {
-      this.setState({
-        error: "El email ya está registrado"
-      });
-      return;
-    }
-
-    
-    this.setState({
-      error: ""
-    });
-
-    alert("Usuario creado correctamente");
   }
 
   render() {
     return (
       <div>
-        <form onSubmit={(event) => this.evitarSubmit(event)}>
-
+        <form onSubmit={(e) => this.registerUsuario(e)}>      
           <label>Email:</label>
           <input
             type="text"
             name="email"
-            onChange={(event) => this.controlarCambios(event)}
+            onChange={(e) => this.controlarCambios(e)}
             value={this.state.email}
           />
-
           <label>Password:</label>
           <input
             type="password"
             name="password"
-            onChange={(event) => this.controlarCambios(event)}
+            onChange={(e) => this.controlarCambios(e)}
             value={this.state.password}
           />
-
-          <input
-            type="submit"
-            value="Submit"
-            onClick={() => this.registrarUsuario()}
-          />
-
-          {this.state.error ? <p>{this.state.error}</p> : null}
-
+          <button type="submit">Registrarme</button>
         </form>
       </div>
     );
+
   }
 }
 

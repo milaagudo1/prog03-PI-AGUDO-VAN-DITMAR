@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import "../styles/Styles.css";
 import React from "react";
 import UnElemento from "../components/UnElemento.js";
-import Buscador from "../components/Buscador";
 
 let apiKey = "62c5658855e15f6ec169432e29e4b6a4";
 
@@ -11,8 +10,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      peliculasPopulares: [],
-      peliculasCartelera: []
+      peliculas: [],
+      series: []
     };
   }
 
@@ -21,31 +20,31 @@ class Home extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          peliculasPopulares: data.results
+          peliculas: data.results
         });
       });
 
-    fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`)
+    fetch(`https://api.themoviedb.org/3/tv/popular?api_key=62c5658855e15f6ec169432e29e4b6a4&page=1`)
       .then(response => response.json())
       .then(data => {
         this.setState({
-          peliculasCartelera: data.results
+          series: data.results
         });
       });
   }
 
   filtrarPeliculas(textoAFiltrar) {
-    let populares = this.state.peliculasPopulares.filter(p =>
+    let peliculas = this.state.peliculas.filter(p =>
       p.title.includes(textoAFiltrar)
     );
 
-    let cartelera = this.state.peliculasCartelera.filter(p =>
+    let series = this.state.series.filter(p =>
       p.title.includes(textoAFiltrar)
     );
 
     this.setState({
-      peliculasPopulares: populares,
-      peliculasCartelera: cartelera
+      peliculas: peliculas,
+      series: series
     });
   }
 
@@ -53,13 +52,13 @@ class Home extends React.Component {
     return (
       <div className="container">
 
-        <Buscador onBuscar={(texto) => this.filtrarPeliculas(texto)} />
+        
 
-        <h2>Películas populares</h2>
+        <h2>Películas</h2>
         <ul>
-          {this.state.peliculasPopulares.length === 0 ?
-            <p>No se encontraron películas populares</p>
-            : this.state.peliculasPopulares.map((pelicula) => (
+          {this.state.peliculas.length === 0 ?
+            <p>No se encontraron películas</p>
+            : this.state.peliculas.map((pelicula) => (
               <UnElemento
                 key={pelicula.id}
                 id={pelicula.id}
@@ -70,17 +69,17 @@ class Home extends React.Component {
             ))}
         </ul>
 
-        <h2>Películas en cartelera</h2>
+        <h2>Series</h2>
         <ul>
-          {this.state.peliculasCartelera.length === 0 ?
-            <p>No se encontraron películas de Cartelera</p>
-            : this.state.peliculasCartelera.map((pelicula) => (
+          {this.state.series.length === 0 ?
+            <p>No se encontraron series</p>
+            : this.state.series.map((serie) => (
               <UnElemento
-                key={pelicula.id}
-                id={pelicula.id}
-                foto={pelicula.poster_path}
-                nombre={pelicula.title}
-                descripcion={pelicula.overview}
+                key={serie.id}
+                id={serie.id}
+                foto={serie.poster_path}
+                nombre={serie.title}
+                descripcion={serie.overview}
               />
             ))}
         </ul>
