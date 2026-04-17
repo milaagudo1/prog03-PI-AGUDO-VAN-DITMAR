@@ -74,9 +74,7 @@ class Register extends Component {
             onClick={() => this.registrarUsuario()}
           />
 
-          if (this.state.error) {
-            return <p>{this.state.error}</p>;
-          }
+          {this.state.error ? <p>{this.state.error}</p> : null}
 
         </form>
       </div>
