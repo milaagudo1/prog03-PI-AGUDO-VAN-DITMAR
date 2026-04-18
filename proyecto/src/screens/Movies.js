@@ -1,64 +1,78 @@
-import { useEffect, useState } from "react";
+import React, { Component } from "react";
 import UnElemento from "../components/UnElemento";
 
-function Movies() {
+class Movies extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            movies: [],
+            moviesBack: [],
+            valorInput: "",
+            page: 1
+        };
+    }
 
-    const [movies, setMovies] = useState([]);
-    const [page, setPage] = useState(1);
-    const [busqueda, setBusqueda] = useState("");
+    componentDidMount() {
+        this.cargarMovies(1);
+    }
 
-    useEffect(() => {
+    cargarMovies(page) {
         fetch(`https://api.themoviedb.org/3/movie/popular?api_key=62c5658855e15f6ec169432e29e4b6a4&page=${page}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-
                 if (data.results) {
-                    setMovies(prev => [...prev, ...data.results]);
+                    this.setState(prev => ({
+                        movies: [...prev.movies, ...data.results],
+                        moviesBack: [...prev.moviesBack, ...data.results]
+                    }));
                 }
             })
             .catch(err => console.log(err));
-    }, [page]);
-
-
-
-    function cargarMas() {
-        setPage(page + 1);
     }
 
-    let filtradas = movies.filter(movie =>
-        movie.title.toLowerCase().includes(busqueda.toLowerCase())
-    );
+    cargarMas() {
+        let nuevaPagina = this.state.page + 1;
+        this.setState({ page: nuevaPagina });
+        this.cargarMovies(nuevaPagina);
+    }
 
-    return (
-        <div className="container">
+    controlarCambios(event) {
+        let texto = event.target.value;
+        let filtradas = this.state.moviesBack.filter(m =>
+            m.title.toLowerCase().includes(texto.toLowerCase())
+        );
+        this.setState({ movies: filtradas, valorInput: texto });
+    }
 
-            <h2>Películas</h2>
-
-            <input
-                className="buscador"
-                type="text"
-                placeholder="Buscar..."
-                onChange={(e) => setBusqueda(e.target.value)}
-            />
-
-
-            <ul>
-                {filtradas.map(movie => (
-                    <UnElemento
-                        key={movie.id}
-                        id={movie.id}
-                        foto={movie.poster_path}
-                        nombre={movie.title}
-                        descripcion={movie.overview}
-                    />
-                ))}
-            </ul>
-
-            <button onClick={cargarMas}>Cargar más</button>
-
-        </div>
-    );
+    render() {
+        return (
+            <div className="container">
+                <h2>Películas</h2>
+                <input
+                    className="buscador"
+                    type="text"
+                    placeholder="Buscar..."
+                    value={this.state.valorInput}
+                    onChange={(e) => this.controlarCambios(e)}
+                />
+                <ul>
+                    {this.state.movies.map(movie => (
+                        <UnElemento
+                            key={movie.id}
+                            id={movie.id}
+                            tipo="movie"
+                            foto={movie.poster_path}
+                            nombre={movie.title}
+                            descripcion={movie.overview}
+                        />
+                    ))}
+                </ul>
+                <button onClick={() => this.cargarMas()} className="btn-primary">
+                    Cargar más
+                </button>
+            </div>
+        );
+    }
 }
 
 export default Movies;

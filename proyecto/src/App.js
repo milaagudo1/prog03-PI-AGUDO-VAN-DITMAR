@@ -23,8 +23,8 @@ function App() {
         <Route path="/favorites" exact={true} component={Favorites} />
         <Route path="/register" exact={true} component={Register} />
         <Route path="/login" exact={true} component={Login} />
-        <Route path="/detail/:id" exact={true} component={Detail} />
-        <Route path="" component={Notfound} />
+        <Route path="/detail/:tipo/:id" exact={true} component={Detail} />
+        <Route component={Notfound} />
       </Switch>
       <Footer />
     </React.Fragment>

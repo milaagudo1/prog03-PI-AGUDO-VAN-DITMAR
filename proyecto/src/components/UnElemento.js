@@ -15,6 +15,7 @@ class UnElemento extends React.Component {
         }
     }
 
+   
     componentDidMount() {
         let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
         let esFavorito = favoritos.some(favorito => favorito.id === this.props.id);
@@ -31,7 +32,8 @@ class UnElemento extends React.Component {
         localStorage.setItem('favoritos', JSON.stringify(favoritos));
         this.setState({ esFavorito: !this.state.esFavorito });
     }
-
+    
+  
     render() {
         let haySesion = sessionStorage.getItem('usuario')
         return (
@@ -42,10 +44,10 @@ class UnElemento extends React.Component {
                 <button className="btn btn-primary" onClick={() => this.setState({ verDescripcion: !this.state.verDescripcion })}>
                     {this.state.verDescripcion ? 'Ocultar descripción' : 'Ver descripción'}
                 </button>
-                <Link to={`/detail/${this.props.id}`}><button className="btn btn-secondary">Ver detalle</button></Link>
+                <Link to={`/detail/${this.props.tipo}/${this.props.id}`}><button className="btn btn-secondary">Ver detalle</button></Link>
                 {haySesion ? (
                     <button className="btn btn-warning" onClick={() => this.Favorito()}>
-                    {this.state.esFavorito ? " Quitar de favoritos" : " Agregar a favoritos"}</button>) : null}
+                        {this.state.esFavorito ? " Quitar de favoritos" : " Agregar a favoritos"}</button>) : null}
             </div>
         )
     }

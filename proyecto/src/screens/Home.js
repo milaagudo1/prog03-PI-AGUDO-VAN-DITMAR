@@ -4,55 +4,74 @@ import "../styles/Styles.css";
 import React from "react";
 import UnElemento from "../components/UnElemento.js";
 
-let apiKey = "62c5658855e15f6ec169432e29e4b6a4";
+let apiKeyPelis = "62c5658855e15f6ec169432e29e4b6a4";
+let apiKeySeries = "62c5658855e15f6ec169432e29e4b6a4&page=1"
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       peliculas: [],
-      series: []
+      series: [],
+      peliculasBack: [],
+      seriesBack: [],
+      valorInput: ''
     };
   }
 
   componentDidMount() {
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKeyPelis}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
-          peliculas: data.results
+          peliculas: data.results,
+          peliculasBack: data.results
         });
       });
 
-    fetch(`https://api.themoviedb.org/3/tv/popular?api_key=62c5658855e15f6ec169432e29e4b6a4&page=1`)
+    fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKeySeries}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
-          series: data.results
+          series: data.results,
+          seriesBack: data.results
         });
-      });
+      })
+      .catch(error => console.log('El error fue: ' + error));
+  }
+
+  evitarSumbit(event) {
+    event.preventDefault();
+  }
+
+  controlarCambios(event) {
+    this.setState({ valorInput: event.target.value },
+      () => this.filtrarPeliculas(event.target.value),
+    );
   }
 
   filtrarPeliculas(textoAFiltrar) {
-    let peliculas = this.state.peliculas.filter(p =>
-      p.title.includes(textoAFiltrar)
-    );
+    let peliculas = this.state.peliculasBack.filter(p =>
+      p.title.toLowerCase().includes(textoAFiltrar.toLowerCase()));
 
-    let series = this.state.series.filter(p =>
-      p.title.includes(textoAFiltrar)
-    );
+    let series = this.state.seriesBack.filter(p =>
+      p.name.toLowerCase().includes(textoAFiltrar.toLowerCase()));
 
-    this.setState({
-      peliculas: peliculas,
-      series: series
-    });
+    this.setState({peliculas, series});
   }
 
   render() {
     return (
       <div className="container">
 
-        
+        <form className="search-form" onSubmit={(e) => this.evitarSubmit(e)}>
+          <input
+            type="text"
+            placeholder="Filtrar por nombre..."
+            onChange={(e) => this.controlarCambios(e)}
+            value={this.state.valorInput}
+          />
+        </form>
 
         <h2>Películas</h2>
         <ul>
@@ -62,6 +81,7 @@ class Home extends React.Component {
               <UnElemento
                 key={pelicula.id}
                 id={pelicula.id}
+                 tipo="movie" 
                 foto={pelicula.poster_path}
                 nombre={pelicula.title}
                 descripcion={pelicula.overview}
@@ -77,14 +97,14 @@ class Home extends React.Component {
               <UnElemento
                 key={serie.id}
                 id={serie.id}
+                  tipo="tv"   
                 foto={serie.poster_path}
                 nombre={serie.title}
                 descripcion={serie.overview}
               />
             ))}
-        </ul>
-
-      </div>
+        </ul> 
+      </div> 
     );
   }
 }
