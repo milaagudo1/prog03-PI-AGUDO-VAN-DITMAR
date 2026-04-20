@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UnElemento from "../components/UnElemento";
+import "./Movies.css";
 
 class Movies extends Component {
     constructor(props) {

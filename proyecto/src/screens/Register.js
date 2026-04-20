@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import "./Register.css";
 
 const cookies = new Cookies();
 
@@ -12,42 +13,40 @@ class Register extends Component {
     };
   }
 
-  controlarCambios(e) {
+  controlarCambios(event) {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   }
 
-  registerUsuario(e) {
-    
-
-
-    
+  registerUsuario(event) {
+    event.preventDefault();
   }
 
   render() {
     return (
-      <div>
-        <form onSubmit={(e) => this.registerUsuario(e)}>      
+      <div className="register-container"> 
+        <form onSubmit={(event) => this.registerUsuario(event)}>      
           <label>Email:</label>
           <input
             type="text"
             name="email"
-            onChange={(e) => this.controlarCambios(e)}
+            onChange={(event) => this.controlarCambios(event)}
             value={this.state.email}
           />
+
           <label>Password:</label>
           <input
             type="password"
             name="password"
-            onChange={(e) => this.controlarCambios(e)}
+            onChange={(event) => this.controlarCambios(event)}
             value={this.state.password}
           />
+
           <button type="submit">Registrarme</button>
         </form>
       </div>
     );
-
   }
 }
 

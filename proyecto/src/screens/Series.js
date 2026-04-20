@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UnElemento from "../components/UnElemento";
+import "./Series.css";
 
 class Series extends Component {
     constructor(props) {

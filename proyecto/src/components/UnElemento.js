@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/Styles.css";
 import { Link } from "react-router-dom";
+import "./UnElemento.css";
 
 class UnElemento extends React.Component {
     constructor(props) {

@@ -10,6 +10,7 @@ import Series from "./screens/Series";
 import Detail from "./screens/Detail"
 import Favorites from "./screens/Favorites"
 import Notfound from "./screens/NotFound";
+import "./App.css";
 
 function App() {
   return (
