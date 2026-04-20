@@ -64,11 +64,11 @@ class Home extends React.Component {
     return (
       <div className="container">
 
-        <form className="search-form" onSubmit={(e) => this.evitarSubmit(e)}>
+        <form className="search-form" onSubmit={(event) => this.evitarSubmit(event)}>
           <input
             type="text"
             placeholder="Filtrar por nombre..."
-            onChange={(e) => this.controlarCambios(e)}
+            onChange={(event) => this.controlarCambios(event)}
             value={this.state.valorInput}
           />
         </form>
@@ -77,7 +77,7 @@ class Home extends React.Component {
         <ul>
           {this.state.peliculas.length === 0 ?
             <p>No se encontraron películas</p>
-            : this.state.peliculas.map((pelicula) => (
+            : this.state.peliculas.slice(0, 4).map((pelicula) => (
               <UnElemento
                 key={pelicula.id}
                 id={pelicula.id}
@@ -93,7 +93,7 @@ class Home extends React.Component {
         <ul>
           {this.state.series.length === 0 ?
             <p>No se encontraron series</p>
-            : this.state.series.map((serie) => (
+            : this.state.series.slice(0, 4).map((serie) => (
               <UnElemento
                 key={serie.id}
                 id={serie.id}

@@ -24,22 +24,16 @@ class Login extends Component {
   loginUsuario(event) {
     event.preventDefault();
     const { email, password } = this.state;
-
-    
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
     
-    const usuarioValido = usuariosRegistrados.find(
+    const usuarioValido = usuariosRegistrados.filter(
       (user) => user.email === email && user.password === password
     );
 
-    if (usuarioValido) {
-     
-      cookies.set("user-auth-cookie", usuarioValido.email);
-      
+    if (usuarioValido.length > 0) {
+      cookies.set("user-auth-cookie", email);
       alert("Inicio de sesión exitoso");
     } else {
-      
       this.setState({ mensajeError: "Credenciales incorrectas" });
     }
   }
