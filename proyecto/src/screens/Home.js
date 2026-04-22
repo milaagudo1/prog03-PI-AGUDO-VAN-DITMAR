@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "./Home.css"; 
+import "./Home.css";
 import React from "react";
 import UnElemento from "../components/UnElemento.js";
 
@@ -13,9 +13,9 @@ class Home extends React.Component {
     this.state = {
       peliculas: [],
       series: [],
-      peliculasBack: [],
-      seriesBack: [],
-      valorInput: ''
+      valorInput: '',
+      tipo: "movie",
+      cargando: true
     };
   }
 
@@ -24,8 +24,7 @@ class Home extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          peliculas: data.results,
-          peliculasBack: data.results
+          peliculas: data.results
         });
       });
 
@@ -34,43 +33,52 @@ class Home extends React.Component {
       .then(data => {
         this.setState({
           series: data.results,
-          seriesBack: data.results
+          cargando: false
         });
       })
       .catch(error => console.log('El error fue: ' + error));
   }
 
-  evitarSumbit(event) {
+  cambiarTipo(event) {
+    this.setState({ tipo: event.target.value });
+  }
+  buscar(event) {
     event.preventDefault();
+    if (this.state.valorInput === "") return;
+    this.props.history.push(`/search?query=${this.state.valorInput}&tipo=${this.state.tipo}`);
   }
 
   controlarCambios(event) {
-    this.setState({ valorInput: event.target.value },
-      () => this.filtrarPeliculas(event.target.value),
-    );
-  }
-
-  filtrarPeliculas(textoAFiltrar) {
-    let peliculas = this.state.peliculasBack.filter(p =>
-      p.title.toLowerCase().includes(textoAFiltrar.toLowerCase()));
-
-    let series = this.state.seriesBack.filter(p =>
-      p.name.toLowerCase().includes(textoAFiltrar.toLowerCase()));
-
-    this.setState({peliculas, series});
+    this.setState({ valorInput: event.target.value });
   }
 
   render() {
+    if (this.state.cargando) return <p>Cargando...</p>;
     return (
       <div className="container">
 
-        <form className="search-form" onSubmit={(event) => this.evitarSubmit(event)}>
+        <form className="search-form" onSubmit={(e) => this.buscar(e)}>
+          <input
+            type="radio"
+            name="tipo"
+            value="movie"
+            checked={this.state.tipo === "movie"}
+            onChange={(e) => this.cambiarTipo(e)}
+          /> Películas
+          <input
+            type="radio"
+            name="tipo"
+            value="tv"
+            checked={this.state.tipo === "tv"}
+            onChange={(e) => this.cambiarTipo(e)}
+          /> Series
           <input
             type="text"
-            placeholder="Filtrar por nombre..."
-            onChange={(event) => this.controlarCambios(event)}
+            placeholder="Buscar..."
+            onChange={(e) => this.controlarCambios(e)}
             value={this.state.valorInput}
           />
+          <button type="submit">Buscar</button>
         </form>
 
         <h2>Películas</h2>
@@ -81,7 +89,7 @@ class Home extends React.Component {
               <UnElemento
                 key={pelicula.id}
                 id={pelicula.id}
-                 tipo="movie" 
+                tipo="movie"
                 foto={pelicula.poster_path}
                 nombre={pelicula.title}
                 descripcion={pelicula.overview}
@@ -97,14 +105,14 @@ class Home extends React.Component {
               <UnElemento
                 key={serie.id}
                 id={serie.id}
-                  tipo="tv"   
+                tipo="tv"
                 foto={serie.poster_path}
                 nombre={serie.title}
                 descripcion={serie.overview}
               />
             ))}
-        </ul> 
-      </div> 
+        </ul>
+      </div>
     );
   }
 }

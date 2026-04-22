@@ -10,6 +10,7 @@ import Series from "./screens/Series";
 import Detail from "./screens/Detail"
 import Favorites from "./screens/Favorites"
 import Notfound from "./screens/NotFound";
+import Search from "./screens/Results";
 import "./App.css";
 
 function App() {
@@ -19,13 +20,14 @@ function App() {
       <Header />
       <Switch>
         <Route path="/" exact={true} component={Home} />
+        <Route path="/search" exact={true} component={Search} />
         <Route path="/movies" exact={true} component={Movies} /> 
         <Route path="/series" exact={true} component={Series} />
         <Route path="/favorites" exact={true} component={Favorites} />
         <Route path="/register" exact={true} component={Register} />
         <Route path="/login" exact={true} component={Login} />
         <Route path="/detail/:tipo/:id" exact={true} component={Detail} />
-        <Route component={Notfound} />
+        <Route path=" " component={Notfound} />
       </Switch>
       <Footer />
     </React.Fragment>

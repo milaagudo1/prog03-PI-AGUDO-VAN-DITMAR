@@ -9,7 +9,8 @@ class Movies extends Component {
             movies: [],
             moviesBack: [],
             valorInput: "",
-            page: 1
+            page: 1,
+            cargando: true
         };
     }
 
@@ -24,7 +25,8 @@ class Movies extends Component {
                 if (data.results) {
                     this.setState(prev => ({
                         movies: [...prev.movies, ...data.results],
-                        moviesBack: [...prev.moviesBack, ...data.results]
+                        moviesBack: [...prev.moviesBack, ...data.results],
+                        cargando: false
                     }));
                 }
             })
@@ -46,6 +48,8 @@ class Movies extends Component {
     }
 
     render() {
+        if (this.state.cargando) return <p>Cargando...</p>;
+
         return (
             <div className="container">
                 <h2>Películas</h2>

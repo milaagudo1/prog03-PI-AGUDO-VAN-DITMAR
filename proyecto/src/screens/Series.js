@@ -9,7 +9,8 @@ class Series extends Component {
             series: [],
             seriesBack: [],
             valorInput: "",
-            page: 1
+            page: 1,
+            cargando: true
         };
     }
 
@@ -23,7 +24,8 @@ class Series extends Component {
             .then(data => {
                 this.setState(prev => ({
                     series: [...prev.series, ...data.results],
-                    seriesBack: [...prev.seriesBack, ...data.results]
+                    seriesBack: [...prev.seriesBack, ...data.results],
+                    cargando: false
                 }));
             })
             .catch(err => console.log(err));
@@ -44,6 +46,7 @@ class Series extends Component {
     }
 
     render() {
+        if (this.state.cargando) return <p>Cargando...</p>;
         return (
             <div className="container">
                 <h2>Series</h2>

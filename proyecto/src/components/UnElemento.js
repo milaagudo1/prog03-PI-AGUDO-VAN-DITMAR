@@ -2,6 +2,8 @@ import React from "react";
 import "../styles/Styles.css";
 import { Link } from "react-router-dom";
 import "./UnElemento.css";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 class UnElemento extends React.Component {
     constructor(props) {
@@ -28,15 +30,20 @@ class UnElemento extends React.Component {
         if (this.state.esFavorito) {
             favoritos = favoritos.filter(favorito => favorito.id !== this.props.id);
         } else {
-            favoritos.push(this.props.id);
-        }
+            favoritos.push({
+                id: this.props.id,
+                nombre: this.props.nombre,
+                foto: this.props.foto,
+                tipo: this.props.tipo
+        });
+
         localStorage.setItem('favoritos', JSON.stringify(favoritos));
         this.setState({ esFavorito: !this.state.esFavorito });
     }
-    
+}
   
     render() {
-        let haySesion = sessionStorage.getItem('usuario')
+        let haySesion = cookies.get('user-auth-cookie')
         return (
             <div className="card">
                 <img src={`https://image.tmdb.org/t/p/w500/${this.state.foto}`} alt={this.state.nombre} />

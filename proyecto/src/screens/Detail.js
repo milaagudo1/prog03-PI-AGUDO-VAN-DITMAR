@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./Detail.css";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const apiKey = "62c5658855e15f6ec169432e29e4b6a4";
 
@@ -48,7 +50,7 @@ class Detail extends Component {
     render() {
         const { tipo } = this.props.match.params;
         const { detalle, cargando, esFavorito } = this.state;
-        const sesion = sessionStorage.getItem("usuario");
+        const sesion = cookies.get("user-auth-cookie");
 
         if (cargando) return <p>Cargando...</p>;
 
