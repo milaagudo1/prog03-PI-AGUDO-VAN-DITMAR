@@ -1,16 +1,16 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./screens/Home";
-import Header from "./components/Header";
+import Home from "./screens/Home/Home";
+import Header from "./components/Header/Header";
 import React from "react";
-import Footer from "./components/Footer";
-import Register from "./screens/Register";
-import Login from "./screens/Login";
-import Movies from "./screens/Movies";
-import Series from "./screens/Series";
-import Detail from "./screens/Detail"
-import Favorites from "./screens/Favorites"
-import Notfound from "./screens/NotFound";
-import Search from "./screens/Results";
+import Footer from "./components/Footer/Footer";
+import Register from "./screens/Register/Register";
+import Login from "./screens/Login/Login";
+import Movies from "./screens/Movies/Movies";
+import Series from "./screens/Series/Series";
+import Detail from "./screens/Detail/Detail"
+import Favorites from "./screens/Favorites/Favorites"
+import Notfound from "./screens/NotFound/NotFound";
+import Search from "./screens/Results/Results";
 import "./App.css";
 
 function App() {
@@ -36,4 +36,3 @@ function App() {
 
 export default App;
 
-// cambiar componentes lineas 14 a 18

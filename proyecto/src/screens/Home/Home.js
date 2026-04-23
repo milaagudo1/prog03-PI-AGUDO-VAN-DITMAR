@@ -1,8 +1,8 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import "./Home.css";
 import React from "react";
-import UnElemento from "../components/UnElemento.js";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import UnElemento from "../../components/UnElemento/UnElemento";
 
 let apiKeyPelis = "62c5658855e15f6ec169432e29e4b6a4";
 let apiKeySeries = "62c5658855e15f6ec169432e29e4b6a4&page=1"

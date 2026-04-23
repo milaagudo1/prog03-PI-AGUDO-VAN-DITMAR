@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UnElemento from "../components/UnElemento";
+import UnElemento from "../../components/UnElemento/UnElemento";
 import "./Series.css";
 
 class Series extends Component {

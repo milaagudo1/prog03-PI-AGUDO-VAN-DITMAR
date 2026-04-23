@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UnElemento from "../components/UnElemento";
+import UnElemento from "../../components/UnElemento/UnElemento";
 
 const apiKey = "62c5658855e15f6ec169432e29e4b6a4";
 
