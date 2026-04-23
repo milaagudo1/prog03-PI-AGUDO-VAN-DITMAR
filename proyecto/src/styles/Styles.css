@@ -6,41 +6,18 @@ body {
     color: #e5e7eb;
 }
 
-@media (max-width: 1024px) {
-    .container ul {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
 
-@media (max-width: 768px) {
-    .container ul {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
 
 @media (max-width: 480px) {
-    .container ul {
-        grid-template-columns: 1fr;
-    }
-
-    .container {
-        padding: 15px;
-    }
+  body {
+    font-size: 14px;
+  }
 }
 
-@media (max-width: 600px) {
-    .header {
-        flex-direction: column;
-        gap: 15px;
-    }
 
-    .logo-img {
-        height: 50px;
-    }
-
-    .nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
 }
+

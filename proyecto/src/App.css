@@ -54,3 +54,27 @@ body {
     background: #0f172a;
     color: #e5e7eb;
 }
+
+
+@media (max-width: 480px) {
+  .register-container {
+    margin-top: 20px;
+    padding: 0 15px;
+  }
+
+  .register-form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .register-container h2 {
+    font-size: 20px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .register-form {
+    width: 80%;
+  }
+}

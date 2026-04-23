@@ -65,3 +65,33 @@
 .register-container button:hover {
   background-color: #0ea5e9;
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .container h2 {
+    font-size: 20px;
+  }
+
+  .container ul {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .buscador {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .container ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .buscador {
+    width: 100%;
+  }
+}

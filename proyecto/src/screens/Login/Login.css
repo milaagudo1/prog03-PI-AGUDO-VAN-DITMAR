@@ -73,3 +73,23 @@ button:hover {
   margin-bottom: 10px;
   text-align: center;
 }
+
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+    height: auto;
+  }
+
+  .login-container form {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .login-container form {
+    width: 80%;
+  }
+}
