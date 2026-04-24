@@ -27,7 +27,7 @@ function App() {
         <Route path="/register" exact={true} component={Register} />
         <Route path="/login" exact={true} component={Login} />
         <Route path="/detail/:tipo/:id" exact={true} component={Detail} />
-        <Route path=" " component={Notfound} />
+        <Route path="" component={Notfound} />
       </Switch>
       <Footer />
     </React.Fragment>

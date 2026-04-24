@@ -45,9 +45,9 @@ class UnElemento extends React.Component {
         let haySesion = cookies.get('user-auth-cookie')
         return (
             <div className="card">
-                <img src={`https://image.tmdb.org/t/p/w500/${this.state.foto}`} alt={this.state.nombre} />
-                <h3>{this.state.nombre}</h3>
-                <p> {this.state.verDescripcion ? this.state.descripcion : ''}</p>
+                <img src={`https://image.tmdb.org/t/p/w500/${this.props.foto}`} alt={this.props.nombre} />
+                <h3>{this.props.nombre}</h3>
+                <p> {this.state.verDescripcion ? this.props.descripcion : ''}</p>
                 <button className="btn btn-primary" onClick={() => this.setState({ verDescripcion: !this.state.verDescripcion })}>
                     {this.state.verDescripcion ? 'Ocultar descripción' : 'Ver descripción'}
                 </button>

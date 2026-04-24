@@ -3,9 +3,10 @@ import React from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import UnElemento from "../../components/UnElemento/UnElemento";
+import { Link } from "react-router-dom";
 
 let apiKeyPelis = "62c5658855e15f6ec169432e29e4b6a4";
-let apiKeySeries = "62c5658855e15f6ec169432e29e4b6a4&page=1"
+let apiKeySeries = "62c5658855e15f6ec169432e29e4b6a4"
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class Home extends React.Component {
         this.setState({
           peliculas: data.results
         });
-      });
+      })
+      .catch(error => console.log('El error fue: ' + error));
 
     fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKeySeries}`)
       .then(response => response.json())
@@ -95,6 +97,7 @@ class Home extends React.Component {
                 descripcion={pelicula.overview}
               />
             ))}
+            <Link className="nav-link" to="/movies"><button className="btn btn-secondary">Ver más</button></Link>
         </ul>
 
         <h2>Series</h2>
@@ -111,6 +114,8 @@ class Home extends React.Component {
                 descripcion={serie.overview}
               />
             ))}
+            <Link className="nav-link" to="/series"><button className="btn btn-secondary">Ver más</button></Link>
+      
         </ul>
       </div>
     );

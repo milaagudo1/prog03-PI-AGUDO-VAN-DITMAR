@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import "./Register.css";
+import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -47,23 +48,25 @@ class Register extends Component {
     return (
       <div className="register-container"> 
         <form onSubmit={(event) => this.registerUsuario(event)}>      
-          <label>Email:</label>
+          <label htmlFor="email">Email:</label>
           <input
-            type="text"
+            type="email"
+            id="email"
             name="email"
             onChange={(event) => this.controlarCambios(event)}
             value={this.state.email}
           />
 
-          <label>Password:</label>
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
+            id="password"
             name="password"
             onChange={(event) => this.controlarCambios(event)}
             value={this.state.password}
           />
 
-          <button type="submit">Registrarme</button>
+          <button className="btn btn-secondary">Registrarme</button>
         </form>
       </div>
     );

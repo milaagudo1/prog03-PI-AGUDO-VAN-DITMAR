@@ -22,11 +22,13 @@ class Series extends Component {
         fetch(`https://api.themoviedb.org/3/tv/popular?api_key=62c5658855e15f6ec169432e29e4b6a4&page=${page}`)
             .then(res => res.json())
             .then(data => {
-                this.setState(prev => ({
-                    series: [...prev.series, ...data.results],
-                    seriesBack: [...prev.seriesBack, ...data.results],
+                this.setState({
+                    // series: [...prev.series, ...data.results],
+                    series: this.state.series.concat(data.results),
+                    // seriesBack: [...prev.seriesBack, ...data.results],
+                    seriesBack: this.state.seriesBack.concat(data.results),
                     cargando: false
-                }));
+                });
             })
             .catch(err => console.log(err));
     }
@@ -58,9 +60,9 @@ class Series extends Component {
                     onChange={(e) => this.controlarCambios(e)}
                 />
                 <ul>
-                    {this.state.series.map(serie => (
+                    {this.state.series.map((serie, idx) => (
                         <UnElemento
-                            key={serie.id}
+                            key={`${serie.id}-${idx}`}
                             id={serie.id}
                             tipo="tv"
                             foto={serie.poster_path}

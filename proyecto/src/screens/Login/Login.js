@@ -32,7 +32,7 @@ class Login extends Component {
 
     if (usuarioValido.length > 0) {
       cookies.set("user-auth-cookie", email);
-      alert("Inicio de sesión exitoso");
+      this.props.history.push("/");
     } else {
       this.setState({ mensajeError: "Credenciales incorrectas" });
     }

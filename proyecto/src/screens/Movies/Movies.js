@@ -24,8 +24,9 @@ class Movies extends Component {
             .then(data => {
                 if (data.results) {
                     this.setState(prev => ({
-                        movies: [...prev.movies, ...data.results],
-                        moviesBack: [...prev.moviesBack, ...data.results],
+                        movies: this.state.movies.concat(data.results),
+                        moviesBack: this.state.moviesBack.concat(data.results),
+
                         cargando: false
                     }));
                 }
@@ -61,9 +62,9 @@ class Movies extends Component {
                     onChange={(e) => this.controlarCambios(e)}
                 />
                 <ul>
-                    {this.state.movies.map(movie => (
+                    {this.state.movies.map((movie, idx) => (
                         <UnElemento
-                            key={movie.id}
+                            key={movie.id + idx}
                             id={movie.id}
                             tipo="movie"
                             foto={movie.poster_path}
