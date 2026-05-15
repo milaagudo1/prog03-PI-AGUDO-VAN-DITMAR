@@ -1,36 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import "./Favorites.css";
 
 const cookies = new Cookies();
 
-class Favorites extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            favoritos: []
-        };
-    }
+function Favorites(props){
+    const[favoritos, setFavortios] = useState([])
 
-    componentDidMount() {
-        if (!cookies.get("user-auth-cookie")) {
-            this.props.history.push("/login");
+    useEffect(()=>{
+          if (!cookies.get("user-auth-cookie")) {
+            props.history.push("/login");
             return;
         }
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-        this.setState({ favoritos });
-    }
+        setFavortios(favoritos);
+    },[])
 
-    quitarFavorito(id) {
-        let favoritos = this.state.favoritos.filter(f => f.id !== id);
+    function quitarFavorito(id) {
+        let favoritos = favoritos.filter(f => f.id !== id);
         localStorage.setItem("favoritos", JSON.stringify(favoritos));
-        this.setState({ favoritos });
+        setFavortios(favoritos);
     }
 
-    render() {
-        let peliculas = this.state.favoritos.filter(f => f.tipo === "movie");
-        let series = this.state.favoritos.filter(f => f.tipo === "tv");
+        let peliculas = favoritos.filter(f => f.tipo === "movie");
+        let series = favoritos.filter(f => f.tipo === "tv");
         return (
             <div className="container">
                 <h2>Mis Favoritos</h2>
@@ -52,7 +46,7 @@ class Favorites extends React.Component {
                                 </Link>
                                 <button
                                     className="btn btn-warning"
-                                    onClick={() => this.quitarFavorito(favorito.id)}
+                                    onClick={() => quitarFavorito(favorito.id)}
                                 >
                                     Quitar de favoritos
                                 </button>
@@ -78,7 +72,7 @@ class Favorites extends React.Component {
                                 </Link>
                                 <button
                                     className="btn btn-warning"
-                                    onClick={() => this.quitarFavorito(favorito.id)}
+                                    onClick={() =>quitarFavorito(favorito.id)}
                                 >
                                     Quitar de favoritos
                                 </button>
@@ -89,6 +83,5 @@ class Favorites extends React.Component {
             </div>
         );
     }
-}
 
 export default Favorites;

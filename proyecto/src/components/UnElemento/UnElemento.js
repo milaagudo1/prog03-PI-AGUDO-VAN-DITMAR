@@ -2,65 +2,64 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./UnElemento.css";
 import Cookies from "universal-cookie";
+import { useState, useEffect } from "react";
 const cookies = new Cookies();
 
-class UnElemento extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            foto: props.foto,
-            nombre: props.nombre,
-            descripcion: props.descripcion,
-            verDescripcion: false,
-            esFavorito: false
+function UnElemento(props) {
 
-        }
-    }
+    console.log("existo");
+    
 
-   
-    componentDidMount() {
+    const[verDescripcion, setVerDescripcion]=useState(false)
+    const[esFavorito, setEsFavorito]=useState(false)
+
+    useEffect(()=>{
         let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-        let esFavorito = favoritos.some(favorito => favorito.id === this.props.id);
-        this.setState({ esFavorito });
-    }
+        let esFavorito = favoritos.some(favorito => favorito.id === props.id);
+        setEsFavorito(true);
+    }, [])
 
-    Favorito() {
+
+    function Favorito() {
         let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-        if (this.state.esFavorito) {
-            favoritos = favoritos.filter(favorito => favorito.id !== this.props.id);
+        if (esFavorito) {
+            favoritos = favoritos.filter(favorito => favorito.id !== props.id);
         } else {
             favoritos.push({
-                id: this.props.id,
-                nombre: this.props.nombre,
-                foto: this.props.foto,
-                tipo: this.props.tipo
+                id: props.id,
+                nombre: props.nombre,
+                foto: props.foto,
+                tipo: props.tipo
         });
 
         localStorage.setItem('favoritos', JSON.stringify(favoritos));
-        this.setState({ esFavorito: !this.state.esFavorito });
+        setEsFavorito(!esFavorito );
     }
-}
+
   
-    render() {
-        let haySesion = cookies.get('user-auth-cookie')
-        return (
+      
+
+
+
+}
+
+  let haySesion = cookies.get('user-auth-cookie')
+  
+return (
             <div className="card">
-                <img src={`https://image.tmdb.org/t/p/w500/${this.props.foto}`} alt={this.props.nombre} />
-                <h3>{this.props.nombre}</h3>
-                <p> {this.state.verDescripcion ? this.props.descripcion : ''}</p>
-                <button className="btn btn-primary" onClick={() => this.setState({ verDescripcion: !this.state.verDescripcion })}>
-                    {this.state.verDescripcion ? 'Ocultar descripción' : 'Ver descripción'}
+                <img src={`https://image.tmdb.org/t/p/w500/${props.foto}`} alt={props.nombre} />
+                <h3>{props.nombre}</h3>
+                <p> {verDescripcion ? props.descripcion : ''}</p>
+                <button className="btn btn-primary" onClick={() => setVerDescripcion(!verDescripcion)}>
+                    {verDescripcion ? 'Ocultar descripción' : 'Ver descripción'}
                 </button>
-                <Link to={`/detail/${this.props.tipo}/${this.props.id}`}><button className="btn btn-secondary">Ver detalle</button></Link>
+                <Link to={`/detail/${props.tipo}/${props.id}`}><button className="btn btn-secondary">Ver detalle</button></Link>
                 {haySesion ? (
-                    <button className="btn btn-warning" onClick={() => this.Favorito()}>
-                        {this.state.esFavorito ? " Quitar de favoritos" : " Agregar a favoritos"}</button>) : null}
+                    <button className="btn btn-warning" onClick={() => Favorito()}>
+                        {esFavorito ? " Quitar de favoritos" : " Agregar a favoritos"}</button>) : null}
             </div>
         )
     }
-}
-
-
 
 export default UnElemento;
 

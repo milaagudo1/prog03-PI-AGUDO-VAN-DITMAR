@@ -1,55 +1,51 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import "./Detail.css";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const apiKey = "62c5658855e15f6ec169432e29e4b6a4";
 
-class Detail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            detalle: null,
-            esFavorito: false,
-            cargando: true
-        };
-    }
 
-    componentDidMount() {
-        const { tipo, id } = this.props.match.params;
+function Detail(props){
+    const[detalle, setDetalle]=useState(null)
+    const[esFavorito, setEsFavorito]=useState(false)
+    const[cargando, setCargando]=useState(true);
+
+    useEffect(()=>{
+        const {tipo, id} = props.match.params;
 
         fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=${apiKey}`)
             .then(res => res.json())
             .then(data => {
-                this.setState({ detalle: data, cargando: false });
+                setDetalle(data) 
+                setCargando(false)
             })
             .catch(err => console.log(err));
 
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
         let yaEsFavorito = favoritos.some(f => f.id === Number(id));
-        this.setState({ esFavorito: yaEsFavorito });
-    }
+        setEsFavorito(yaEsFavorito)
+    },[])
 
-    manejarFavorito() {
-        const { tipo, id } = this.props.match.params;
+
+    function manejarFavorito() {
+        const { tipo, id } = props.match.params;
         let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-        if (this.state.esFavorito) {
+        if (esFavorito) {
             favoritos = favoritos.filter(f => f.id !== Number(id));
         } else {
             favoritos.push({
-                id: this.state.detalle.id,
-                nombre: this.state.detalle.title || this.state.detalle.name,
-                foto: this.state.detalle.poster_path,
+                id: detalle.id,
+                nombre: detalle.title || detalle.name,
+                foto: detalle.poster_path,
                 tipo: tipo
             });
         }
         localStorage.setItem("favoritos", JSON.stringify(favoritos));
-        this.setState({ esFavorito: !this.state.esFavorito });
+        setEsFavorito(!esFavorito)
     }
 
-    render() {
-        const { tipo } = this.props.match.params;
-        const { detalle, cargando, esFavorito } = this.state;
+        const { tipo } = props.match.params;
         const sesion = cookies.get("user-auth-cookie");
 
         if (cargando) return <p>Cargando...</p>;
@@ -69,13 +65,12 @@ class Detail extends Component {
                 <p>Sinopsis: {detalle.overview}</p>
                 <p>Generos: {detalle.genres ? detalle.genres.map(g => g.name).join(", ") : "Sin generos"}</p>
                 {sesion && (
-                    <button onClick={() => this.manejarFavorito()}>
+                    <button onClick={() => manejarFavorito()}>
                         {esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
                     </button>
                 )}
             </div>
         );
     }
-}
 
 export default Detail;
