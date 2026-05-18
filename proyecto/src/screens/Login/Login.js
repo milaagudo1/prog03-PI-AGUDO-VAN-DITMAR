@@ -1,78 +1,80 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Cookies from "universal-cookie";
 import "./Login.css";
 
 const cookies = new Cookies();
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      mensajeError: ""
-    };
+function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mensajeError, setMensajeError] = useState("");
+
+  function controlarCambios(event) {
+    const { name, value } = event.target;
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+    setMensajeError("");
   }
 
-  controlarCambios(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-      mensajeError: ""
-    });
-  }
-
-  loginUsuario(event) {
+  function loginUsuario(event) {
     event.preventDefault();
-    const { email, password } = this.state;
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-    
     const usuarioValido = usuariosRegistrados.filter(
       (user) => user.email === email && user.password === password
     );
 
     if (usuarioValido.length > 0) {
       cookies.set("user-auth-cookie", email);
-      this.props.history.push("/");
+      props.history.push("/");
     } else {
-      this.setState({ mensajeError: "Credenciales incorrectas" });
+      setMensajeError("Credenciales incorrectas");
     }
   }
 
-  render() {
-    return (
-      <div className="login-container">
-        <form onSubmit={(event) => this.loginUsuario(event)}>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              onChange={(event) => this.controlarCambios(event)}
-              value={this.state.email}
-              required
-            />
-          </div>
+  return (
+    <div className="login-container">
+      <form onSubmit={loginUsuario}>
 
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              onChange={(event) => this.controlarCambios(event)}
-              value={this.state.password}
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
 
-          {this.state.mensajeError && (<p className="error-text">{this.state.mensajeError}</p>)}
+          <input
+            id="email"
+            type="email"
+            name="email"
+            onChange={controlarCambios}
+            value={email}
+            required
+          />
+        </div>
 
-          <button type="submit">Entrar</button>
-        </form>
-      </div>
-    );
-  }
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            onChange={controlarCambios}
+            value={password}
+            required
+          />
+        </div>
+
+        {mensajeError && (
+          <p className="error-text">{mensajeError}</p>
+        )}
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
+
+
+

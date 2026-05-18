@@ -1,76 +1,70 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Cookies from "universal-cookie";
 import "./Register.css";
 import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-    };
+function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function controlarCambios(event) {
+    const { name, value } = event.target;
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
   }
 
-  controlarCambios(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  }
-
-  registerUsuario(event) {
+  function registerUsuario(event) {
     event.preventDefault();
 
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const emailExistente = usuariosRegistrados.filter( user => user.email === this.state.email); 
+    const emailExistente = usuariosRegistrados.filter( user => user.email === email);
     if (emailExistente.length > 0) {
       alert("El email ya está registrado");
       return;
-    }
-    else {
-      if (this.state.password.length < 6) {
+    } else {
+      if (password.length < 6) {
         alert("La contraseña debe tener al menos 6 caracteres");
         return;
       }
-      else {
-        usuariosRegistrados.push({ email: this.state.email, password: this.state.password });
-        localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
-        cookies.set("user-auth-cookie", this.state.email);
-        this.setState({ email: "", password: "" });
-        alert("Registro exitoso");
-      }
+      usuariosRegistrados.push({ email: email, password: password });
+      localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
+      cookies.set("user-auth-cookie", email);
+      setEmail("");
+      setPassword("");
+      alert("Registro exitoso");
     }
   }
 
-  render() {
-    return (
-      <div className="register-container"> 
-        <form onSubmit={(event) => this.registerUsuario(event)}>      
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={(event) => this.controlarCambios(event)}
-            value={this.state.email}
-          />
+  return (
+    <div className="register-container">
+      <form onSubmit={registerUsuario}>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          onChange={controlarCambios}
+          value={email}
+        />
 
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={(event) => this.controlarCambios(event)}
-            value={this.state.password}
-          />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          onChange={controlarCambios}
+          value={password}
+        />
 
-          <button className="btn btn-secondary">Registrarme</button>
-        </form>
-      </div>
-    );
-  }
+        <button className="btn btn-secondary">Registrarme</button>
+      </form>
+    </div>
+  );
 }
 
 export default Register;
