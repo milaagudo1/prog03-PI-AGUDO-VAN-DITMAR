@@ -2,7 +2,7 @@ import React, { useState, useEffect, use } from "react";
 import "./Movies.css";
 import UnElemento from "../../components/UnElemento/UnElemento";
 
-function Movies() {
+function Movies(props) {
     const [movies, setMovies] = useState([]);
     const [moviesBack, setMoviesBack] = useState([]);
     const [valorInput, setValorInput] = useState("");

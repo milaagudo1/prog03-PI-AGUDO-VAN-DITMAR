@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UnElemento from "../../components/UnElemento/UnElemento";
 import "./Series.css";
 
-function Series() {
+function Series(props) {
 
 
     const [series, setSeries] = useState([]);

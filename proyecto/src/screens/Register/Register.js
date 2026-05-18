@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const cookies = new Cookies();
 
-function Register() {
+function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
